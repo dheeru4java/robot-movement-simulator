@@ -1,4 +1,5 @@
 # robot-movement-simulator
+
 The robots have three possible movements:
 •	turn right
 •	turn left
@@ -12,3 +13,51 @@ o	Turn left
 o	Advance once
 o	Turn left yet again
 •	Say a robot starts at {7, 3} facing north. Then running this stream of instructions should leave it at {9, 4} facing west.
+
+
+## To Run the program just do -
+	mvnw spring-boot:run
+
+or 
+	mvn clean install
+and go to target folder and do
+	java -jar simulator-0.0.1-SNAPSHOT.jar
+
+It will start the application on port 8446, just access the application at endpoint http://localhost:8446/simulator
+
+
+## Below is the sample POST request  -
+
+curl --location --request POST 'http://localhost:8446/simulator' \
+--header 'Content-Type: application/json' \
+-d '{
+  "starting_position":"7,3",
+  "direction_facing":"north",
+  "instruction":"RAALAL"
+}'
+
+
+## Below is the sample response of above request
+
+{
+    "response": {
+        "final_position": "9,4",
+        "direction_facing": "west"
+    }
+}
+
+## All the required validation of request parameters are done
+## Like if we pass invalid valus in instructuions e.g:
+
+{
+  "starting_position":"7,3",
+  "direction_facing":"north",
+  "instruction":"RAALALX"
+}
+
+## Then response will come as 400 (BAD Request):
+
+{
+    "statusMessage": "The instruction should contain characters: RLA"
+}
+
